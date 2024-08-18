@@ -1,0 +1,39 @@
+name: VisibilityToggle
+version: '${project.version}'
+author: AhmedLegend
+depend: [LuckPerms,FriendsSpigot]
+description: A plugin to toggle player visibility.
+main: com.lgdxcompany.visibilitytoggle.VisibilityToggle
+api-version: '1.20'
+commands:
+  visibilitytoggle:
+    description: Toggles the visibility state.
+    usage: /visibilitytoggle
+    aliases: [vt]
+    permission: visibilitytoggle.toggle
+    permission-message: You do not have permission to toggle visibility.
+  vtreload:
+    description: Reloads the plugin configuration.
+    usage: /vtreload
+    aliases: [ vtr ]
+    permission: visibilitytoggle.reload
+    permission-message: You do not have permission to reload the configuration.
+  vthelp:
+    description: Shows the help menu for the VisibilityToggle plugin.
+    usage: /vthelp
+    aliases: [ vt help, visibilitytoggle help ]
+    permission: visibilitytoggle.help
+    permission-message: You do not have permission to view the help menu.
+permissions:
+  visibilitytoggle.toggle:
+    description: Allows a player to toggle visibility.
+    default: true
+  visibilitytoggle.reload:
+    description: Allows a player to reload the plugin configuration.
+    default: op
+  visibilitytoggle.help:
+    description: Allows a player to view the help menu.
+    default: true
+  visibilitytoggle.bypass:
+    description: Allows a player to bypass item drop and move restrictions.
+    default: false

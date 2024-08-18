@@ -1,0 +1,134 @@
+######################################
+#               @Config             ##
+#      >>> VisibilityToggle <<<     ##
+#    @Developed By LegendGamer      ##
+######################################
+
+# Prefix for plugin messages
+Prefix: "&7[&bVisibilityToggle&7]&e "
+
+Settings:
+  DebugMode: false
+
+  # Settings related to the toggle sound
+  ToggleSound:
+    Enabled: true # Whether the toggle sound is enabled
+    Sound: ENTITY_PLAYER_LEVELUP # The sound to play when toggling
+    Vol: 2.0 # Volume of the toggle sound
+    Pitch: 2.0 # Pitch of the toggle sound
+
+  # Whether to show toggle messages in chat
+  ShowToggleMessages: true
+
+  # Whether to show titles when toggling
+  ShowToggleTitles: true
+
+  # Clear player's inventory on join
+  ClearInvOnJoin: false
+
+  # Give the toggle item on join
+  GiveItemOnJoin: true
+
+  # Show a message to the player on join
+  JoinToggleMessage: false
+
+  # Clear player's inventory on world change
+  ClearInvOnWorldChange: false
+
+  # Give the toggle item on world change
+  GiveItemOnWorldChange: true
+
+  # Prevent players from dropping the toggle item
+  BlockDropItem: true
+
+  # Prevent players from moving the toggle item in their inventory
+  BlockMovementItem: true
+
+  # The inventory slot to place the toggle item
+  Slot: 8
+
+  # Cooldown delay for toggling (in seconds)
+  Delay: 1 # Set this to "-1" to bypass cooldown. Note: To use it correctly, if you set this to 0 it equals 1, if you set it to 1 it equals 2, and so on.
+
+Messages:
+  Show: '&aShowing all players!' # Message when showing all players
+  Friends: '&dShowing only Friends' # Message when showing only friends
+  Hide: '&7All players hidden!' # Message when hiding all players
+  Youtuber: '&9All Youtubers player shown!'
+  Delay: '&eWait &7{cooldown}s &eto use again!' # Message when cooldown is in effect
+  JoinMessage: '&aWelcome to the server!' # Welcome message on join
+
+Titles:
+  Youtuber:
+    Title: '&9Only Youtubers ' # Custom title
+    Subtitle: '&eNow all Youtubers are visible!'
+  Show:
+    Title: '&aPLAYERS ON' # Title when showing all players
+    Subtitle: '&aNow all players are visible!' # Subtitle when showing all players
+  Friends:
+    Title: '&dONLY FRIENDS' # Title when showing only friends
+    Subtitle: '&dOnly Friends will be shown!' # Subtitle when showing only friends
+  Hide:
+    Title: '&cPLAYERS OFF' # Title when hiding all players
+    Subtitle: '&7Now all players are invisible!' # Subtitle when hiding all players
+
+Items:
+  Show:
+    Name: '&bPlayers&7> &aOn &7(Right Click)' # Name of the item for showing all players
+    Item: LIME_DYE # Material of the item
+    Data: 0 # Data value of the item
+    Lore:
+      - '&7Right Click To &eToggle'
+  Friends:
+    Name: '&bPlayers&7> &dFriends Only &7(Right Click)' # Name of the item for showing only friends
+    Item: PINK_DYE # Material of the item
+    Data: 0 # Data value of the item
+    Lore:
+      - '&7Right Click To &eToggle'
+  Hide:
+    Name: '&bPlayers&7> &cOff &7(Right Click)' # Name of the item for hiding all players
+    Item: GRAY_DYE # Material of the item
+    Data: 0 # Data value of the item
+    Lore:
+      - '&7Right Click To &eToggle'
+  Youtuber:
+    Name: '&bPlayers&7> &aYoutuber &7(Right Click)' # Name of the custom item
+    Item: BLUE_DYE # Material of the custom item
+    Data: 0 # Data value of the custom item
+    Lore:
+      - '&7Right Click To &eToggle'
+
+# How To add a New custom item
+# Items:
+#   Youtuber:
+#     Name: '&bPlayers&7> &aYoutuber &7(Right Click)' # Name of the custom item
+#     Item: BLUE_DYE # Material of the custom item
+#     Data: 0 # Data value of the custom item
+#     Lore:
+#       - '&7Right Click To &eToggle'
+
+# Messages:
+#   Youtuber: '&eAll Youtubers player shown!'
+
+# Titles:
+#   Youtuber:
+#     Title: '&bPlayers&7> &aYoutuber &7(Right Click)' # Custom title
+#     Subtitle: '&eYou used the Example Custom Item!' # Subtitle for the custom title
+
+# If you are using Multiverse inventories, use PerWorldPlugins instead of this section to disable the plugin completely in the worlds you want
+EnabledWorlds: # World where the plugin is enabled
+  - world
+  - world_nether
+  - world_the_end
+
+specificsRanksThatCustomToggleItemWillShow:
+  Youtuber:
+    TheRankWillBeShownInThisType:
+      - youtuber
+  CustomToggleItem1:
+    TheRankWillBeShownInThisType:
+      - SpecialRank1
+      - SpecialRank2
+  CustomToggleItem2:
+    TheRankWillBeShownInThisType:
+      - AnotherSpecialRank
