@@ -32,14 +32,14 @@ public class VisibilityToggle extends JavaPlugin implements Listener {
     public HashMap<UUID, String> playerToggleStates = new HashMap<>();
     public Map<Player, String> playerToggleTypes = new HashMap<>();
     public final Map<UUID, Long> lastToggleTime = new HashMap<>();
-    private Map<String, ItemStack> customItems = new HashMap<>();
-    private Map<String, String> customMessages = new HashMap<>();
-    private Map<String, Map<String, String>> customTitles = new HashMap<>();
+    private final Map<String, ItemStack> customItems = new HashMap<>();
+    private final Map<String, String> customMessages = new HashMap<>();
+    private final Map<String, Map<String, String>> customTitles = new HashMap<>();
 
 
     @Override
     public void onEnable() {
-        getLogger().info("\u001B[33;1m[\u001B[34;1mVisibilityToggle\u001B[33;1m] \u001B[32;1mThe plugin has been enabled!\u001B[0m");
+        Objects.requireNonNull(getLogger()).info("\u001B[33;1m[\u001B[34;1mVisibilityToggle\u001B[33;1m] \u001B[32;1mThe plugin has been enabled!\u001B[0m");
         saveDefaultConfig();
         reloadConfig();
         loadCustomSettings();
@@ -56,12 +56,12 @@ public class VisibilityToggle extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new EventHandlerToggleType(this), this);
         getServer().getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new VisibilityToggleListener(this), this);
-        getCommand("visibilitytoggle").setExecutor(new ToggleCommand(this));
-        getCommand("vt").setExecutor(new ToggleCommand(this));
-        getCommand("vtreload").setExecutor(new ReloadCommand(this));
-        getCommand("vtr").setExecutor(new ReloadCommand(this));
-        getCommand("vthelp").setExecutor(new ToggleCommand(this));
-        getCommand("visibilitytoggle").setTabCompleter(new VisibilityToggleTabCompleter());
+        Objects.requireNonNull(getCommand("visibilitytoggle")).setExecutor(new ToggleCommand(this));
+        Objects.requireNonNull(getCommand("vt")).setExecutor(new ToggleCommand(this));
+        Objects.requireNonNull(getCommand("vtreload")).setExecutor(new ReloadCommand(this));
+        Objects.requireNonNull(getCommand("vtr")).setExecutor(new ReloadCommand(this));
+        Objects.requireNonNull(getCommand("vthelp")).setExecutor(new ToggleCommand(this));
+        Objects.requireNonNull(getCommand("visibilitytoggle")).setTabCompleter(new VisibilityToggleTabCompleter());
 
         supportsTitles = checkTitleSupport();
     }
@@ -71,7 +71,7 @@ public class VisibilityToggle extends JavaPlugin implements Listener {
     }
     @Override
     public void onDisable() {
-        getLogger().info("\u001B[33;1m[\u001B[34;1mVisibilityToggle\u001B[33;1m] \u001B[0mThe plugin has been disabled!");
+        Objects.requireNonNull(getLogger()).info("\u001B[33;1m[\u001B[34;1mVisibilityToggle\u001B[33;1m] \u001B[0mThe plugin has been disabled!");
     }
 
     public void loadCustomSettings() {
@@ -79,8 +79,8 @@ public class VisibilityToggle extends JavaPlugin implements Listener {
 
         // Load custom items
         if (config.isConfigurationSection( "CustomItems" )) {
-            for (String key : config.getConfigurationSection( "CustomItems" ).getKeys( false )) {
-                String name = ChatColor.translateAlternateColorCodes( '&', config.getString( "CustomItems." + key + ".Name" ) );
+            for (String key : Objects.requireNonNull(config.getConfigurationSection("CustomItems")).getKeys( false )) {
+                String name = ChatColor.translateAlternateColorCodes( '&', Objects.requireNonNull(config.getString("CustomItems." + key + ".Name")));
                 Material material = Material.valueOf( config.getString( "CustomItems." + key + ".Item" ) );
                 int data = config.getInt( "CustomItems." + key + ".Data" );
                 List<String> lore = config.getStringList( "CustomItems." + key + ".Lore" );
@@ -99,17 +99,17 @@ public class VisibilityToggle extends JavaPlugin implements Listener {
 
         // Load custom messages
         if (config.isConfigurationSection( "CustomMessages" )) {
-            for (String key : config.getConfigurationSection( "CustomMessages" ).getKeys( false )) {
-                String message = ChatColor.translateAlternateColorCodes( '&', config.getString( "CustomMessages." + key ) );
+            for (String key : Objects.requireNonNull(config.getConfigurationSection("CustomMessages")).getKeys( false )) {
+                String message = ChatColor.translateAlternateColorCodes( '&', Objects.requireNonNull(config.getString("CustomMessages." + key)));
                 customMessages.put( key, message );
             }
         }
 
         // Load custom titles
         if (config.isConfigurationSection( "CustomTitles" )) {
-            for (String key : config.getConfigurationSection( "CustomTitles" ).getKeys( false )) {
-                String title = ChatColor.translateAlternateColorCodes( '&', config.getString( "CustomTitles." + key + ".Title" ) );
-                String subtitle = ChatColor.translateAlternateColorCodes( '&', config.getString( "CustomTitles." + key + ".Subtitle" ) );
+            for (String key : Objects.requireNonNull(config.getConfigurationSection("CustomTitles")).getKeys( false )) {
+                String title = ChatColor.translateAlternateColorCodes( '&', Objects.requireNonNull(config.getString("CustomTitles." + key + ".Title")));
+                String subtitle = ChatColor.translateAlternateColorCodes( '&', Objects.requireNonNull(config.getString("CustomTitles." + key + ".Subtitle")));
                 Map<String, String> titleMap = new HashMap<>();
                 titleMap.put( "Title", title );
                 titleMap.put( "Subtitle", subtitle );
@@ -136,7 +136,7 @@ public class VisibilityToggle extends JavaPlugin implements Listener {
         super.reloadConfig();
         loadCustomSettings();
         this.reloadConfig();
-        getLogger().info("Configuration reloaded.");
+        Objects.requireNonNull(getLogger()).info("Configuration reloaded.");
     }
 
     public void giveToggleItem(Player player) {
@@ -152,12 +152,12 @@ public class VisibilityToggle extends JavaPlugin implements Listener {
                 if (customItem != null) {
                     player.getInventory().setItem(config.getInt("Settings.Slot"), customItem);
                 } else {
-                    getLogger().warning("Custom item for toggle type " + toggleType + " not found.");
+                    Objects.requireNonNull(getLogger()).warning("Custom item for toggle type " + toggleType + " not found.");
                 }
             } else {
                 playerToggleStates.put(player.getUniqueId(), toggleType);
-                String itemName = ChatColor.translateAlternateColorCodes('&', config.getString("Items." + toggleType + ".Name"));
-                Material material = Material.matchMaterial(config.getString("Items." + toggleType + ".Item"));
+                String itemName = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(config.getString("Items." + toggleType + ".Name")));
+                Material material = Material.matchMaterial(Objects.requireNonNull(config.getString("Items." + toggleType + ".Item")));
                 int dataValue = config.getInt("Items." + toggleType + ".Data");
 
                 ItemStack item = new ItemStack(material, 1, (short) dataValue);
@@ -213,7 +213,7 @@ public class VisibilityToggle extends JavaPlugin implements Listener {
         FileConfiguration config = getConfig();
         for (String toggleType : Arrays.asList("Show", "Friends", "Hide")) {
             String itemName = config.getString("Items." + toggleType + ".Name");
-            if (item.hasItemMeta() && item.getItemMeta().hasDisplayName() &&
+            if (item.hasItemMeta() && Objects.requireNonNull(item.getItemMeta()).hasDisplayName() &&
                     ChatColor.stripColor(item.getItemMeta().getDisplayName()).equals(ChatColor.stripColor(itemName))) {
                 return true;
             }
@@ -267,7 +267,7 @@ public class VisibilityToggle extends JavaPlugin implements Listener {
 
     private boolean isCustomToggleType(ToggleState state) {
         // Check if the toggle state corresponds to a custom toggle type
-        return getConfig().getConfigurationSection("specificsRanksThatCustomToggleItemWillShow").contains(state.name());
+        return Objects.requireNonNull(getConfig().getConfigurationSection("specificsRanksThatCustomToggleItemWillShow")).contains(state.name());
     }
 
     private void applyRankSpecificVisibility(Player player, ToggleState customToggleType) {
@@ -332,6 +332,7 @@ public class VisibilityToggle extends JavaPlugin implements Listener {
         FileConfiguration config = getConfig();
         if (config.getBoolean("Settings.ShowToggleMessages")) {
             String message = config.getString("Messages." + state, "&eVisibility " + state.toLowerCase() + ".");
+            assert message != null;
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
         }
     }
@@ -339,9 +340,9 @@ public class VisibilityToggle extends JavaPlugin implements Listener {
     public void sendToggleTitles(Player player, String state) {
         FileConfiguration config = getConfig();
         if (config.getBoolean("Settings.ShowToggleTitles") && supportsTitles) {
-            String title = config.getString("Titles." + state + ".Title", "&e" + state)
+            String title = Objects.requireNonNull(config.getString("Titles." + state + ".Title", "&e" + state))
                     .replace("%state%", state);
-            String subtitle = config.getString("Titles." + state + ".Subtitle", "&eYou are now " + state.toLowerCase())
+            String subtitle = Objects.requireNonNull(config.getString("Titles." + state + ".Subtitle", "&eYou are now " + state.toLowerCase()))
                     .replace("%state%", state);
 
             File titleSizeFile = new File(getDataFolder(), "titlesize.yml");
@@ -366,7 +367,7 @@ public class VisibilityToggle extends JavaPlugin implements Listener {
                 float pitch = (float) config.getDouble("Settings.ToggleSound.Pitch", 1.0);
                 player.playSound(player.getLocation(), sound, volume, pitch);
             } catch (IllegalArgumentException e) {
-                getLogger().warning("Invalid sound name in config: " + soundName);
+                Objects.requireNonNull(getLogger()).warning("Invalid sound name in config: " + soundName);
                 player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0F, 1.0F);
             }
         }
@@ -401,7 +402,7 @@ public class VisibilityToggle extends JavaPlugin implements Listener {
             Method sendTitle = Player.class.getMethod("sendTitle", String.class, String.class, int.class, int.class, int.class);
             sendTitle.invoke(player, title, subtitle, fadeIn, stay, fadeOut);
         } catch (ReflectiveOperationException e) {
-            getLogger().warning("Failed to send title to player " + player.getName());
+            Objects.requireNonNull(getLogger()).warning("Failed to send title to player " + player.getName());
         }
     }
 }

@@ -8,9 +8,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 @SuppressWarnings("ALL")
 
@@ -25,7 +27,7 @@ public class ToggleCommand implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (!(sender instanceof Player)) {
             sender.sendMessage( ChatColor.DARK_RED + "Only players can use this command.");
             Player player = (Player) sender;
@@ -37,7 +39,7 @@ public class ToggleCommand implements CommandExecutor {
 
         // Log debug message
         if (plugin.getConfig().getBoolean("Settings.DebugMode")) {
-            plugin.getLogger().info("ToggleCommand executed by: " + player.getName());
+            Objects.requireNonNull(plugin.getLogger()).info("ToggleCommand executed by: " + player.getName());
         }
 
         // Reload the configuration each time the command is executed to ensure we get the latest settings
@@ -49,7 +51,7 @@ public class ToggleCommand implements CommandExecutor {
         boolean blockMovementItem = config.getBoolean("Settings.BlockMovementItem");
 
         // Log debug messages for configuration values
-        plugin.getLogger().info("BlockDropItem setting: " + blockDropItem);
+        Objects.requireNonNull(plugin.getLogger()).info("BlockDropItem setting: " + blockDropItem);
         plugin.getLogger().info("BlockMovementItem setting: " + blockMovementItem);
 
 
@@ -95,7 +97,7 @@ public class ToggleCommand implements CommandExecutor {
             long lastTime = lastToggleTime.get(player.getUniqueId());
             if (currentTime - lastTime < cooldown) {
                 long remainingTime = (cooldown - (currentTime - lastTime)) / 1000;
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.Delay").replace("{cooldown}", String.valueOf(remainingTime))));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(config.getString("Messages.Delay")).replace("{cooldown}", String.valueOf(remainingTime))));
                 return true;
             }
         }
@@ -106,21 +108,21 @@ public class ToggleCommand implements CommandExecutor {
 
         if (toggleType.equals("Show")) {
             toggleType = "Friends";
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.Friends")));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(config.getString("Messages.Friends"))));
         } else if (toggleType.equals("Friends")) {
             toggleType = "Hide";
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.Hide")));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(config.getString("Messages.Hide"))));
         } else {
             toggleType = "Show";
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("Messages.Show")));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(config.getString("Messages.Show"))));
         }
 
         plugin.giveToggleItem(player, toggleType, false);
         plugin.setCurrentToggleType(player, toggleType);
 
         if (config.getBoolean("Settings.ShowToggleTitles")) {
-            String title = ChatColor.translateAlternateColorCodes('&', config.getString("Titles." + toggleType + ".Title"));
-            String subtitle = ChatColor.translateAlternateColorCodes('&', config.getString("Titles." + toggleType + ".Subtitle"));
+            String title = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(config.getString("Titles." + toggleType + ".Title")));
+            String subtitle = ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(config.getString("Titles." + toggleType + ".Subtitle")));
             player.sendTitle(title, subtitle, 10, 70, 20);
         }
 
@@ -168,7 +170,7 @@ public class ToggleCommand implements CommandExecutor {
                 Sound sound = Sound.valueOf(soundName);
                 player.playSound(player.getLocation(), sound, volume, pitch);
             } catch (IllegalArgumentException e) {
-                plugin.getLogger().warning("Invalid sound name: " + soundName);
+                Objects.requireNonNull(plugin.getLogger()).warning("Invalid sound name: " + soundName);
             }
         }
 

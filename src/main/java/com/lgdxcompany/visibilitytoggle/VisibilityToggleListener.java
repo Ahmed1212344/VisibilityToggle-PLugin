@@ -16,6 +16,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 @SuppressWarnings("ALL")
 
@@ -33,7 +34,7 @@ public class VisibilityToggleListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        plugin.getLogger().info("PlayerJoinEvent triggered for " + event.getPlayer().getName());
+        Objects.requireNonNull(plugin.getLogger()).info("PlayerJoinEvent triggered for " + event.getPlayer().getName());
         Player player = event.getPlayer();
         FileConfiguration config = plugin.getConfig();
 
@@ -67,8 +68,8 @@ public class VisibilityToggleListener implements Listener {
 
         if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             // Handle standard toggle items
-            for (String key : config.getConfigurationSection("Items").getKeys(false)) {
-                Material material = Material.matchMaterial(config.getString("Items." + key + ".Item"));
+            for (String key : Objects.requireNonNull(config.getConfigurationSection("Items")).getKeys(false)) {
+                Material material = Material.matchMaterial(Objects.requireNonNull(config.getString("Items." + key + ".Item")));
                 if (material != null && item.getType() == material) {
                     handleToggleItemInteraction(player, key, false);
                     plugin.toggleVisibility(player); // Call the toggleVisibility method
@@ -110,8 +111,8 @@ public class VisibilityToggleListener implements Listener {
         }
 
         if (config.getBoolean( toggleTitlePath )) {
-            String title = ChatColor.translateAlternateColorCodes( '&', config.getString( titleKey + nextToggleType + ".Title" ) );
-            String subtitle = ChatColor.translateAlternateColorCodes( '&', config.getString( titleKey + nextToggleType + ".Subtitle" ) );
+            String title = ChatColor.translateAlternateColorCodes( '&', Objects.requireNonNull(config.getString(titleKey + nextToggleType + ".Title")));
+            String subtitle = ChatColor.translateAlternateColorCodes( '&', Objects.requireNonNull(config.getString(titleKey + nextToggleType + ".Subtitle")));
             player.sendTitle( title, subtitle, 10, 70, 20 );
         }
 
@@ -127,10 +128,10 @@ public class VisibilityToggleListener implements Listener {
                     float pitch = (float) config.getDouble( soundKey + ".Pitch" );
                     player.playSound( player.getLocation(), sound, volume, pitch );
                 } catch (IllegalArgumentException e) {
-                    plugin.getLogger().warning( "Invalid sound name in config: " + soundName );
+                    Objects.requireNonNull(plugin.getLogger()).warning( "Invalid sound name in config: " + soundName );
                 }
             } else {
-                plugin.getLogger().warning( "Sound is not set or is empty in the config." );
+                Objects.requireNonNull(plugin.getLogger()).warning( "Sound is not set or is empty in the config." );
             }
         }
     }
@@ -138,8 +139,8 @@ public class VisibilityToggleListener implements Listener {
     private String getNextToggleType(String currentToggleType, boolean isCustom) {
         FileConfiguration config = plugin.getConfig();
         String[] toggleTypes = isCustom ?
-                config.getConfigurationSection("CustomItems").getKeys(false).toArray(new String[0]) :
-                config.getConfigurationSection("Items").getKeys(false).toArray(new String[0]);
+                Objects.requireNonNull(config.getConfigurationSection("CustomItems")).getKeys(false).toArray(new String[0]) :
+                Objects.requireNonNull(config.getConfigurationSection("Items")).getKeys(false).toArray(new String[0]);
 
         for (int i = 0; i < toggleTypes.length; i++) {
             if (toggleTypes[i].equals(currentToggleType)) {
@@ -154,7 +155,7 @@ public class VisibilityToggleListener implements Listener {
         Player player = event.getPlayer();
         ItemStack item = event.getItemDrop().getItemStack();
 
-        if (item == null || !item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) {
+        if (!item.hasItemMeta() || !Objects.requireNonNull(item.getItemMeta()).hasDisplayName()) {
             return;
         }
 
@@ -164,8 +165,8 @@ public class VisibilityToggleListener implements Listener {
         boolean blockDropItem = config.getBoolean("Settings.BlockDropItem");
 
         if (blockDropItem && !player.hasPermission("visibilitytoggle.bypass")) {
-            for (String key : config.getConfigurationSection("Items").getKeys(false)) {
-                String toggleItemName = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', config.getString("Items." + key + ".Name")));
+            for (String key : Objects.requireNonNull(config.getConfigurationSection("Items")).getKeys(false)) {
+                String toggleItemName = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(config.getString("Items." + key + ".Name"))));
 
                 if (itemName.equals(toggleItemName)) {
                     event.setCancelled(true);
@@ -181,7 +182,7 @@ public class VisibilityToggleListener implements Listener {
         Player player = (Player) event.getWhoClicked();
         ItemStack item = event.getCurrentItem();
 
-        if (item == null || !item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) {
+        if (item == null || !item.hasItemMeta() || !Objects.requireNonNull(item.getItemMeta()).hasDisplayName()) {
             return;
         }
 
@@ -191,8 +192,8 @@ public class VisibilityToggleListener implements Listener {
         boolean blockMovementItem = config.getBoolean("Settings.BlockMovementItem");
 
         if (blockMovementItem && !player.hasPermission("visibilitytoggle.bypass")) {
-            for (String key : config.getConfigurationSection("Items").getKeys(false)) {
-                String toggleItemName = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', config.getString("Items." + key + ".Name")));
+            for (String key : Objects.requireNonNull(config.getConfigurationSection("Items")).getKeys(false)) {
+                String toggleItemName = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(config.getString("Items." + key + ".Name"))));
 
                 if (itemName.equals(toggleItemName)) {
                     event.setCancelled(true);
@@ -206,7 +207,7 @@ public class VisibilityToggleListener implements Listener {
 
     @EventHandler
     public void onPlayerChangedWorld(PlayerChangedWorldEvent event) {
-        plugin.getLogger().info("PlayerChangedWorldEvent triggered for " + event.getPlayer().getName());
+        Objects.requireNonNull(plugin.getLogger()).info("PlayerChangedWorldEvent triggered for " + event.getPlayer().getName());
         Player player = event.getPlayer();
         FileConfiguration config = plugin.getConfig();
 
@@ -244,7 +245,7 @@ public class VisibilityToggleListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        plugin.getLogger().info("PlayerQuitEvent triggered for " + event.getPlayer().getName());
+        Objects.requireNonNull(plugin.getLogger()).info("PlayerQuitEvent triggered for " + event.getPlayer().getName());
         plugin.savePlayerState(event.getPlayer());
         Player player = event.getPlayer();
         if (player.hasMetadata("invisible")) {

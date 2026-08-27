@@ -53,6 +53,7 @@ public class EventHandlerToggleType implements Listener {
         Player player = event.getPlayer();
 
         // Check if the player's view direction has changed significantly
+        assert event.getTo() != null;
         if (event.getFrom().getPitch() != event.getTo().getPitch() ||
                 event.getFrom().getYaw() != event.getTo().getYaw()) {
 
