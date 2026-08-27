@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/VisibilityToggle.iml" filepath="$PROJECT_DIR$/VisibilityToggle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/visibilitytoggle.iml" filepath="$PROJECT_DIR$/visibilitytoggle.iml" />
     </modules>
   </component>
 </project>

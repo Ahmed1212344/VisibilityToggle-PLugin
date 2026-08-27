@@ -50,6 +50,28 @@ Settings:
   # Cooldown delay for toggling (in seconds)
   Delay: 1 # Set this to "-1" to bypass cooldown. Note: To use it correctly, if you set this to 0 it equals 1, if you set it to 1 it equals 2, and so on.
 
+# How To add a New custom item
+# Items:
+#   Example:
+#     Name: '&bPlayers&7> &aExample &7(Right Click)' # Name of the custom item
+#     Item: BLUE_DYE # Material of the custom item
+#     Data: 0 # Data value of the custom item
+#     Lore:
+#       - '&7Right Click To &eToggle'
+
+# Messages:
+#   Example: '&eAll Example player shown!'
+
+# Titles:
+#   Example:
+#     Title: '&bPlayers&7> &aExample &7(Right Click)' # Custom title
+#     Subtitle: '&eYou used the Example Custom Item!' # Subtitle for the custom title
+
+#specificsRanksThatCustomToggleItemWillShow:
+# Example:
+#   TheRankWillBeShownInThisType:
+#     - ExampleRank
+
 Messages:
   Show: '&aShowing all players!' # Message when showing all players
   Friends: '&dShowing only Friends' # Message when showing only friends
@@ -98,25 +120,9 @@ Items:
     Lore:
       - '&7Right Click To &eToggle'
 
-# How To add a New custom item
-# Items:
-#   Youtuber:
-#     Name: '&bPlayers&7> &aYoutuber &7(Right Click)' # Name of the custom item
-#     Item: BLUE_DYE # Material of the custom item
-#     Data: 0 # Data value of the custom item
-#     Lore:
-#       - '&7Right Click To &eToggle'
-
-# Messages:
-#   Youtuber: '&eAll Youtubers player shown!'
-
-# Titles:
-#   Youtuber:
-#     Title: '&bPlayers&7> &aYoutuber &7(Right Click)' # Custom title
-#     Subtitle: '&eYou used the Example Custom Item!' # Subtitle for the custom title
-
-# If you are using Multiverse inventories, use PerWorldPlugins instead of this section to disable the plugin completely in the worlds you want
-EnabledWorlds: # World where the plugin is enabled
+# Note: If you are using Multiverse inventories and PerWorldPlugins ,You Must make sure that remove the world you choose otherwise you may fall out with bug
+# World where the plugin is enabled
+EnabledWorlds:
   - world
   - world_nether
   - world_the_end
@@ -125,10 +131,3 @@ specificsRanksThatCustomToggleItemWillShow:
   Youtuber:
     TheRankWillBeShownInThisType:
       - youtuber
-  CustomToggleItem1:
-    TheRankWillBeShownInThisType:
-      - SpecialRank1
-      - SpecialRank2
-  CustomToggleItem2:
-    TheRankWillBeShownInThisType:
-      - AnotherSpecialRank
